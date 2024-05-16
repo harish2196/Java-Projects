@@ -18,6 +18,7 @@ import java.util.ArrayList;
 @WebServlet("/DemoServ")
 public class DemoServ extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	  ArrayList<FormData> formList = new ArrayList<>();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -30,31 +31,22 @@ public class DemoServ extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		System.out.println("get");
-		String name=request.getParameter("username");
-		String email=request.getParameter("email");
-		String dob = request.getParameter("date");
-		//String gender=request.getParameter("gender");
-		String pass=request.getParameter("password");
-		//int phoneNo=Integer.parseInt(request.getParameter("age"));
-		PrintWriter out=response.getWriter();
-		out.println(name);
-		out.println(email);
-		out.println(dob);
-		//out.println(gender);
-		out.println(pass);
-		ArrayList<String> form= new ArrayList<String>();
-		form.add(name);
-		form.add(email);
-		form.add(dob);
-		//form.add(gender);
-		form.add(pass);
-		System.out.println(form);
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("username");
+        String email = request.getParameter("email");
+        String dob = request.getParameter("date");
+        String pass = request.getParameter("password");
 
+        FormData formData = new FormData(name, email, dob, pass);
+
+      
+        formList.add(formData);
+        System.out.println(formList);
+
+        request.setAttribute("formList", formList);
+
+        request.getRequestDispatcher("table.jsp").forward(request, response);
+    }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
