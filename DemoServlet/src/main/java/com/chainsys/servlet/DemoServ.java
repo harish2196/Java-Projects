@@ -42,12 +42,12 @@ public class DemoServ extends HttpServlet {
       
         formList.add(formData);
         System.out.println(formList);
+        
 
         request.setAttribute("formList", formList);
 
         request.getRequestDispatcher("table.jsp").forward(request, response);
     }
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -55,5 +55,26 @@ public class DemoServ extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    String nameToDelete = request.getParameter("name");
+	    String emailToDelete = request.getParameter("email");
+	    String dobToDelete=request.getParameter("dob");
+	    String passToDelete=request.getParameter("password");
+	   
+	    ArrayList<FormData> updatedList = new ArrayList<>();
+	    
+	  
+	    for (FormData formData : formList) {
+	        if (!formData.getName().equals(nameToDelete) && !formData.getEmail().equals(emailToDelete)) {
+	            updatedList.add(formData);
+	        }
+	    }
+
+	    formList = updatedList;
+
+	    request.setAttribute("formList", formList);
+	    request.getRequestDispatcher("table.jsp").forward(request, response);
+	}
+
 
 }

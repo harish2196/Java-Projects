@@ -1,80 +1,83 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.chainsys.servlet.FormData" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Form Data</title>
-<style>
-body{
-margin:0;
-padding:0;
-background-color:#a1517c;
-}
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
+    <meta charset="ISO-8859-1">
+    <title>Form Data</title>
+    <style>
+       table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-   th, td {
-    border: 1px solid #dddddd;
-    padding: 8px;
-    text-align: center;
-}
+        th {
+            background-color: firebrick;
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
 
-th {
-    background-color: #f2f2f2;
-}
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
 
-tr:nth-child(even) {
-    background-color: #f9f9f9; 
-}
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+ .delete-button {
+            background-color: #ff5c5c; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            text-align: center; 
+            text-decoration: none; 
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+        }
 
-tr:hover {
-    background-color: #f5f5f5;
-}
-.submit {
-    margin-top: 20px; 
-}
-
-.submit a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.submit a:hover {
-    background-color: #45a049; 
-}
-
-</style>
+    </style>
 </head>
 <body>
-    <% ArrayList<FormData> formList = (ArrayList<FormData>) request.getAttribute("formList"); %>
     <table>
         <tr>
             <th>Name</th>
             <th>Email</th>
             <th>DOB</th>
             <th>Password</th>
+            <th>Action</th>
         </tr>
-        <% for (FormData formData : formList) { %>
+        <% 
+      
+        ArrayList<FormData> formList = (ArrayList<FormData>) request.getAttribute("formList");
+        
+        for (FormData formData : formList) { 
+        %>
             <tr>
                 <td><%= formData.getName() %></td>
                 <td><%= formData.getEmail() %></td>
                 <td><%= formData.getDob() %></td>
                 <td><%= formData.getPassword() %></td>
+                <td>
+                 <form action="DemoServ" method="post">
+                    <input type="hidden" name="name" value="<%= formData.getName() %>">
+                    <input type="hidden" name="email" value="<%= formData.getEmail() %>">
+                     <input type="hidden" name="email" value="<%= formData.getDob() %>">
+                      <input type="hidden" name="email" value="<%= formData.getPassword() %>">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="submit" class="delete-button" value="Delete">
+                </td>
             </tr>
         <% } %>
     </table>
-       <div class="submit">
-          <a href="http://localhost:8080/DemoServlet/">Add More</a>
-        </div>
+    <div class="submit">
+        <a href="http://localhost:8080/DemoServlet/">Add More</a>
+    </div>
 </body>
 </html>
