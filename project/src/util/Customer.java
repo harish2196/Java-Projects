@@ -23,79 +23,70 @@ public class Customer {
 				System.err.println("Please Re-enter Valid Input:");
 				choose1=sc.nextLine().toLowerCase();
 			}
-			if(choose1.equals("no")) {
-				System.out.println("Please Sign Up");	
-				System.out.println("Enter UserName:");
-				String userName = sc.nextLine();
-				ur.setName(userName);
-				System.out.println("Enter PassWord:");
-				String passWord = sc.nextLine();
-				while(!v1.isPassword(passWord)){
-					System.out.println("Please Re-enter Password:");
-					passWord = sc.next();
-				}
-				ur.setPassword(passWord);
-				Connection connection = db.getConnection();
-				crud.insertUser(connection,ur);
-				System.out.println("Signed Successfully!");
+			 if (choose1.equals("no")) {
+		            try {
+		                Connection connection = db.getConnection();
+		           
+		                System.out.println("Please Sign Up");
+		                System.out.println("Enter UserName:");
+		                String userName = sc.nextLine();
+		                System.out.println("Enter PassWord:");
+		                String passWord = sc.nextLine();
+		                while (!v1.isPassword(passWord)) {
+		                    System.out.println("Please Re-enter Password:");
+		                    passWord = sc.nextLine();
+		                }
+		               
+		                ur.setName(userName);
+		                ur.setPassword(passWord);
+		       
+		                crud.insertUser(connection, ur);
+		                System.out.println("Signed Successfully!");
 
-				System.out.println("Please Log In!");
-				boolean validName = false;
-				String name = "";
-				while (!validName) {
-					System.out.println("Enter The Name: ");
-					name = sc.next();
-					crud.getUserPassword(connection, ur);
-					if (name.equals(ur.getName())) {
-						validName = true;
-					} else {
-						System.out.println("Invalid name. Please re-enter.");
-					}
-				}
+		                System.out.println("Please Log In!");
+		                while (true) {
+		                    System.out.println("Enter The Name: ");
+		                    String name = sc.next();
+		                    System.out.println("Enter The Password: ");
+		                    String pass = sc.next();
+		                    ur.setName(name);
+		                    ur.setPassword(pass);
+		                    if (crud.getUserPassword(ur)) {
+		                        System.out.println("Login successful!");
+		                        break; 
+		                    } else {
+		                        System.out.println("Login unsuccessful. Please try again.");
+		                    }
+		                }
+		            } catch (SQLException e) {
+		                System.err.println("Database error: " + e.getMessage());
+		            }
+		        }
+			 if (choose1.equals("yes")) {
+			    Connection connection = db.getConnection();
+			    while (!crud.getUserPassword(ur)) {
+			        System.out.println("Enter The Name: ");
+			        String name = sc.next();
+			        System.out.println("Enter The Password: ");
+			        String pass = sc.next();
+			        ur.setName(name);
+			        ur.setPassword(pass);
 
-				boolean loggedIn = false;
-				while (!loggedIn) {
-					System.out.println("Enter The Password: ");
-					String pass = sc.next();
-					if (pass.equals(ur.getPassword())) {
-						System.out.println("Login successful!");
-						loggedIn = true;
-					} else {
-						System.out.println("Invalid password. Please try again.");
-					}
-				}
+			        if (crud.getUserPassword(ur)) {
+			            System.out.println("Login successful!");
+			            break; 
+			        } else {
+			            System.out.println("Login unsuccessful. Please try again.");
+			        }
+			    }
 			}
-			if(choose1.equals("yes")) {
-				Connection connection = db.getConnection();
-				System.out.println("Please Log In!");
-				boolean validName = false;
-				String name = "";
-				while (!validName) {
-					System.out.println("Enter The Name: ");
-					name = sc.next();
-					crud.getUserPassword(connection, ur);
-					if (name.equals(ur.getName())) {
-						validName = true;
-					} else {
-						System.out.println("Invalid name. Please re-enter.");
-					}
-				}
-				boolean loggedIn = false;
-				while (!loggedIn) {
-					System.out.println("Enter The Password: ");
-					String pass = sc.next();
-					if (pass.equals(ur.getPassword())) {
-						System.out.println("Login successful!");
-						loggedIn = true;
-					} else {
-						System.out.println("Invalid password. Please try again.");
-					}
-				}
 
-			}
+
+
 			while(true) {
 				System.out.println("Enter 1 to View the Products");
 				System.out.println("Enter 2 to buy the Products");
+				System.out.println("Enter 3 to Exit!");
 				System.out.println("Enter choice: ");
 				int cusOption = sc.nextInt();
 				switch(cusOption) {
@@ -106,7 +97,7 @@ public class Customer {
 					crud.retrieveProducts1(db.getConnection());
 				case 3:
 					System.out.println("Exiting...");
-					break;
+					return;
 				}
 			}
 		}

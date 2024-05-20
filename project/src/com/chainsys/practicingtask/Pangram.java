@@ -6,7 +6,7 @@ public class Pangram {
 
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
-		System.out.print("Enter a String1: ");
+		System.out.print("Enter a String: ");
 		String str1=sc.nextLine();
 		boolean flag=pangram(str1);
 		if(flag) { 

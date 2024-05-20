@@ -34,33 +34,23 @@ public class Admin {
 			id=v1.isNumeric1(id);
 
 			if(id==1 || id==2) {
-				if(choose.equals("yes")) {
-					Connection connection = db.getConnection();
-					System.out.println("Please Log In!");
-					boolean validName = false;
-					while (!validName) {
-						System.out.println("Enter The Name: ");
-						String name = sc.next();
-						crud.getUserPassword(connection, ur);
-						if (name.equals(ur.getName())) {
-							validName = true;
-						} else {
-							System.out.println("Invalid name. Please re-enter.");
-						}
-					}
+				if (choose.equals("yes")) {
+				    Connection connection = db.getConnection();
+				    while (!crud.getUserPassword(ur)) {
+				        System.out.println("Enter The Name: ");
+				        String name = sc.next();
+				        System.out.println("Enter The Password: ");
+				        String pass = sc.next();
+				        ur.setName(name);
+				        ur.setPassword(pass);
 
-					boolean loggedIn = false;
-					while (!loggedIn) {
-						System.out.println("Enter The Password: ");
-						String pass = sc.next();
-						if (pass.equals(ur.getPassword())) {
-							System.out.println("Login successful!");
-							loggedIn = true;
-						} else {
-							System.out.println("Invalid password. Please try again.");
-						}
-					}
-
+				        if (crud.getUserPassword(ur)) {
+				            System.out.println("Login successful!");
+				            break; 
+				        } else {
+				            System.out.println("Login unsuccessful. Please try again.");
+				        }
+				    }
 				}
 
 				else if(choose.equals("no")) {
@@ -91,7 +81,7 @@ public class Admin {
 						System.out.println("Enter The Name: ");
 						name = sc.next();
 
-						crud.getUserPassword(connection, ur);
+						crud.getUserPassword(ur);
 						if (name.equals(ur.getName())) {
 							validName = true;
 						} else {
@@ -103,7 +93,7 @@ public class Admin {
 					while (!loggedIn) {
 						System.out.println("Enter The Password: ");
 						String pass = sc.next();
-						crud.getUserPassword(connection, ur);
+						crud.getUserPassword(ur);
 						if (pass.equals(ur.getPassword())) {
 							System.out.println("Login successful!");
 							loggedIn = true;

@@ -16,8 +16,8 @@ public class Viewproducts {
 		Product p = new Product();
 		Validation v1 = new Validation();
 		System.out.println("Enter 1 for View Laptops!");
-		System.out.println("Enter 2 for View Mobiles!");
-		System.out.println("Enter 3 for View Clothes!");
+		System.out.println("Enter 2 for View Clothes!");
+		System.out.println("Enter 3 for View Mobiles!");
 		System.out.println("Enter 0 to Exit!");
 		System.out.println("Enter a Choice: ");
 		int choice = sc.nextInt();

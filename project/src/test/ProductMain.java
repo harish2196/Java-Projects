@@ -24,11 +24,11 @@ public class ProductMain {
 		Customer customer=new Customer();
 		int choice = 0;
 		while(true) {
-			System.out.println("Product Pricing");
+			System.out.println("*******Product Pricing*******");
 			System.out.println("1.Admin");
 			System.out.println("2.Customer");
 			System.out.println("3.Exiting...");
-			System.out.println("Enter choice: ");
+			System.out.println("Enter your choice: ");
 			choice = v1.isNumeric(choice);
 				switch(choice) {
 				case 1:

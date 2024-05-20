@@ -20,7 +20,7 @@ public class CrudOperations implements ProductDAO{
 		Validation v1 = new Validation();
 		PreparedStatement preparedStatement = connection.prepareStatement(insertion);
 		System.out.println("Enter ID:");
-		
+
 		int id= v1.isID();
 
 		if (isExistsId(connection, id)) {
@@ -76,7 +76,7 @@ public class CrudOperations implements ProductDAO{
 		Validation v1 = new Validation();
 		PreparedStatement preparedStatement = connection.prepareStatement(insertion);
 		System.out.println("Enter ID:");
-		
+
 		int id= v1.isID();
 
 		if (isExistsId1(connection, id)) {
@@ -188,20 +188,22 @@ public class CrudOperations implements ProductDAO{
 		int rows=ps.executeUpdate();
 		System.out.println(rows + ":" +" inserted");
 	}
-	
-    
 
-	public void getUserPassword(Connection connection,UserRegister ur) throws SQLException {
-		String userpass="select id,name,password from user_register";
-		Statement stmt=connection.createStatement();
-		ResultSet rs=stmt.executeQuery(userpass);
-		while(rs.next()) {
-			ur.setId(rs.getInt(1));
-			ur.setName(rs.getString(2));
-			ur.setPassword(rs.getString(3));
-		}
-	}
 
+	public boolean getUserPassword(UserRegister ur) throws SQLException {
+		Connection connection = ProductDbConnection.getConnection();
+        String userpass = "SELECT name, password FROM user_register where name=? and password=?";
+    	PreparedStatement ps = connection.prepareStatement(userpass);
+             
+            ps.setString(1, ur.getName());
+            ps.setString(2, ur.getPassword()); 	
+            ResultSet rs=ps.executeQuery();
+            if(rs.next()) {
+            	return true;
+            }
+            return false;
+            }
+        
 	public boolean isExistsId(Connection connection, int id) throws SQLException {
 		String countID = "SELECT COUNT(*) FROM products WHERE id = ?";
 		PreparedStatement preparedStatement = connection.prepareStatement(countID);
@@ -223,16 +225,16 @@ public class CrudOperations implements ProductDAO{
 	}
 
 	public boolean isUsernameExists(Connection connection, String username) throws SQLException {
-	    String countUsername = "SELECT COUNT(*) FROM user_register WHERE name = ?";
-	    PreparedStatement preparedStatement = connection.prepareStatement(countUsername);
-	    preparedStatement.setString(1, username); 
-	    ResultSet resultSet = preparedStatement.executeQuery();
-	    resultSet.next();
-	    int count = resultSet.getInt(1); 
-	    return count > 0;
+		String countUsername = "SELECT COUNT(*) FROM user_register WHERE name = ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(countUsername);
+		preparedStatement.setString(1, username); 
+		ResultSet resultSet = preparedStatement.executeQuery();
+		resultSet.next();
+		int count = resultSet.getInt(1); 
+		return count > 0;
 	}
-	
-	
+
+
 	public void viewProducts(Connection connection) throws SQLException {
 		String viewing ="Select id,name,model,price FROM products";
 		Statement statement = connection.createStatement();
@@ -286,12 +288,27 @@ public class CrudOperations implements ProductDAO{
 			System.out.println("Name: " + name);
 			System.out.println("TotalPrice: "+ price);
 			System.out.println("After 10% Discounted Price: " + discountedPrice);
+		
 			System.out.println("__________________________________________");
 		} else {
 			System.out.println("ID: " + id + " Not Found");
 		}
 	}
+	public static int productselect(int id) throws ClassNotFoundException, SQLException {
+        Connection connection = ProductDbConnection.getConnection();
+        String query = "Select price from products where id=?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet result = statement.executeQuery();
+        Scanner scn = new Scanner(System.in);
+        if (result.next()) {
+            int price = result.getInt("price");
+            return price;
+        } else {
+            return 0;
+        }
 
+    }
 
 	public static double applyDiscount(double price) {
 		double discountRate = 0.1;
@@ -375,7 +392,7 @@ public class CrudOperations implements ProductDAO{
 		int count = resultSet.getInt(1); 
 		return count > 0;
 	}
-	
+
 	public void viewIndividual(int id1, int id2) throws SQLException {
 		ProductDbConnection connect = new ProductDbConnection();
 		Connection connection = connect.getConnection();		
@@ -390,6 +407,7 @@ public class CrudOperations implements ProductDAO{
 			String model=resultSet.getString(3);
 			double price=resultSet.getDouble(4);	 
 			System.out.println("ID:" + id + "\n"+ " Name:" + name  + "\n" + " Model:" + model + "\n"  + " Price:" + price);
+			System.out.println();
 		}
 	}
 

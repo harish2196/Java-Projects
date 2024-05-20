@@ -145,7 +145,7 @@ public class Validation {
 		}
 	}
 
-	public  boolean stringChecker(String s) 
+	public boolean stringChecker(String s) 
 	{
 		try
 		{
