@@ -300,14 +300,13 @@ public class CrudOperations implements ProductDAO{
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
         ResultSet result = statement.executeQuery();
-        Scanner scn = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         if (result.next()) {
             int price = result.getInt("price");
             return price;
         } else {
             return 0;
         }
-
     }
 
 	public static double applyDiscount(double price) {
