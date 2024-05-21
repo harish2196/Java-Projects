@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.ProductDAO;
@@ -13,6 +14,8 @@ import model.Product;
 import model.UserRegister;
 
 public class CrudOperations implements ProductDAO{
+
+	Product p = new Product();
 
 	public  Product addLaptops(Connection connection, Product p) throws SQLException {
 		String insertion = "INSERT INTO products (id, Name, Model, price) VALUES (?, ?, ?, ?)";
@@ -192,18 +195,18 @@ public class CrudOperations implements ProductDAO{
 
 	public boolean getUserPassword(UserRegister ur) throws SQLException {
 		Connection connection = ProductDbConnection.getConnection();
-        String userpass = "SELECT name, password FROM user_register where name=? and password=?";
-    	PreparedStatement ps = connection.prepareStatement(userpass);
-             
-            ps.setString(1, ur.getName());
-            ps.setString(2, ur.getPassword()); 	
-            ResultSet rs=ps.executeQuery();
-            if(rs.next()) {
-            	return true;
-            }
-            return false;
-            }
-        
+		String userpass = "SELECT name, password FROM user_register where name=? and password=?";
+		PreparedStatement ps = connection.prepareStatement(userpass);
+
+		ps.setString(1, ur.getName());
+		ps.setString(2, ur.getPassword()); 	
+		ResultSet rs=ps.executeQuery();
+		if(rs.next()) {
+			return true;
+		}
+		return false;
+	}
+
 	public boolean isExistsId(Connection connection, int id) throws SQLException {
 		String countID = "SELECT COUNT(*) FROM products WHERE id = ?";
 		PreparedStatement preparedStatement = connection.prepareStatement(countID);
@@ -234,22 +237,7 @@ public class CrudOperations implements ProductDAO{
 		return count > 0;
 	}
 
-
-	public void viewProducts(Connection connection) throws SQLException {
-		String viewing ="Select id,name,model,price FROM products";
-		Statement statement = connection.createStatement();
-		ResultSet resultSet = statement.executeQuery(viewing);
-		while(resultSet.next()) {
-			int id=resultSet.getInt(1);
-			String name=resultSet.getString(2);
-			String model=resultSet.getString(3);
-			double price=resultSet.getDouble(4);	
-			System.out.println("ID:" + id + "\n"+ " Name:" + name  + "\n" + " Model:" + model + "\n"  + " Price:" + price);
-		}
-
-	}
-
-	public  void retrieveProducts(Connection connection) throws SQLException {
+	public  void retrieveProductss(Connection connection) throws SQLException {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter the ID of the Product to be retrieve:");
 		int id = sc.nextInt();
@@ -270,51 +258,131 @@ public class CrudOperations implements ProductDAO{
 	}
 
 
-	public  void retrieveProducts1(Connection connection) throws SQLException {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter the ID of the Product to be retrieve:");
-		int id = sc.nextInt();
-		String retrieve= "SELECT id, name, model, price FROM products WHERE id=?";
-		PreparedStatement preparedStatement=connection.prepareStatement(retrieve);
-		preparedStatement.setInt(1, id);
-		ResultSet resultSet = preparedStatement.executeQuery();
-		if(resultSet.next()) {
-			String name=resultSet.getString("name");
-			String model=resultSet.getString("model");
-			double price=resultSet.getDouble("price");
-			double discountedPrice = applyDiscount(price);
-			System.out.println("_________________Bill____________________");
-			System.out.println("ID:" + id);
-			System.out.println("Name: " + name);
-			System.out.println("TotalPrice: "+ price);
-			System.out.println("After 10% Discounted Price: " + discountedPrice);
-		
-			System.out.println("__________________________________________");
-		} else {
-			System.out.println("ID: " + id + " Not Found");
+
+	public void viewProducts(Connection connection) throws SQLException {
+		String viewing ="Select id,name,model,price FROM products";
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(viewing);
+		while(resultSet.next()) {
+			int id=resultSet.getInt(1);
+			String name=resultSet.getString(2);
+			String model=resultSet.getString(3);
+			double price=resultSet.getDouble(4);	
+			System.out.println("ID:" + id + "\n"+ " Name:" + name  + "\n" + " Model:" + model + "\n"  + " Price:" + price);
+		}
+
+	}
+
+	public void retrieveProduct(Connection connection, int id, String[] productDetails) throws SQLException {
+		String query = "SELECT id, name, model, price FROM products WHERE id=?";
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1, id);
+		ResultSet resultSet = statement.executeQuery();
+		if (resultSet.next()) {
+			productDetails[0] = String.valueOf(resultSet.getInt("id"));
+			productDetails[1] = resultSet.getString("name");
+			productDetails[2] = resultSet.getString("model");
+			productDetails[3] = String.valueOf(resultSet.getDouble("price"));
 		}
 	}
-	public static int productselect(int id) throws ClassNotFoundException, SQLException {
-        Connection connection = ProductDbConnection.getConnection();
-        String query = "Select price from products where id=?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, id);
-        ResultSet result = statement.executeQuery();
-        Scanner sc = new Scanner(System.in);
-        if (result.next()) {
-            int price = result.getInt("price");
-            return price;
-        } else {
-            return 0;
-        }
-    }
 
+	String[] strArr = new String[100]; 
+	int index = 0;
+
+	public void retrieveProducts1(Connection connection) throws SQLException, ClassNotFoundException {
+		Scanner sc = new Scanner(System.in);
+
+
+		if(true) {
+			System.out.println("Do you want to buy products (yes/no)?");
+			String choice=sc.nextLine().toLowerCase();
+			while(!choice.equals("yes") && !choice.equals("no")) {
+				System.err.println("Please Re-enter Valid Input:");
+				choice=sc.nextLine().toLowerCase();
+			}
+
+
+			double total = 0;
+			boolean buyingProducts = choice.equalsIgnoreCase("yes");
+
+			while (buyingProducts) {
+				System.out.println("Enter the Product ID:");
+				Validation v1=new Validation();
+				int number = v1.isID();
+
+				String[] productDetails = new String[4]; 
+				retrieveProduct(connection, number, productDetails);
+
+				if (productDetails[0] != null) {
+					double productPrice = Double.parseDouble(productDetails[3]);
+					total += productPrice;
+
+
+					strArr[index++] = "Name: " + productDetails[1] + "\nModel: " + productDetails[2] + "\nPrice: " + productDetails[3];
+
+					System.out.println("Total Price so far: " + total);
+				} else {
+					System.out.println("Product not found with ID: " + number);
+				}
+
+				System.out.println("Do you want to buy more products (yes/no)?");
+				choice = sc.next();
+				buyingProducts = choice.equalsIgnoreCase("yes");
+			}
+
+			if (total > 0) {
+				double discountedPrice = applyDiscount(total);
+
+				System.out.println("_________________Bill____________________");
+				for (int i = 0; i < index; i++) {
+					System.out.println(strArr[i]);
+					System.out.println();
+				}
+				
+				
+				System.out.println("Total Price: " + total);
+				System.out.println("After 10% Discounted Price: " + discountedPrice);
+				System.out.println("Total amount to pay: " + discountedPrice);
+				System.out.println("You want to rate this Product!");
+				insertRatings(connection);
+			} else {
+				System.out.println("No products were added to the cart.");
+			}
+		}
+	}
+
+	public void insertRatings(Connection connection) throws SQLException {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter name:");
+        String name = sc.nextLine();
+        
+        System.out.println("Enter phone number:");
+        String phoneno = sc.nextLine();
+        
+        System.out.println("Enter rating (Upto 5):");
+        int rate = sc.nextInt();
+
+        String insertRating = "INSERT INTO ratings (name, phoneno, rate) VALUES (?,?,?)";
+       PreparedStatement preparedStatement = connection.prepareStatement(insertRating);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, phoneno);
+            preparedStatement.setInt(3, rate);
+
+            preparedStatement.executeUpdate();
+            System.out.println("Rating inserted successfully.");
+        } 
+	
 	public static double applyDiscount(double price) {
 		double discountRate = 0.1;
 		double discountedPrice = price - (price * discountRate);
 		return discountedPrice;
 	}
 
+	
+	
+	
+	
+	
 
 	public  void updateProducts(Connection connection) throws SQLException {
 		Scanner sc = new Scanner(System.in);

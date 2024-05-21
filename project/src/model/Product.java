@@ -5,9 +5,17 @@ public class Product {
 	    public String name;
 	    public String model;
 	    public double price;
-
+	    int number;
 	  
-	    public Product() {
+	    public int getNumber() {
+			return number;
+		}
+
+		public void setNumber(int number) {
+			this.number = number;
+		}
+
+		public Product() {
 	       
 	    }
 

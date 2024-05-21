@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 
 public class Validation {
 
-	public static int isNumeric(int input) throws IllegalArgumentException {
+	public static int isNumeric() throws IllegalArgumentException {
 		Scanner sc=new Scanner(System.in);
 		while (true) {
 			try {
-				input = sc.nextInt();
+			int	input = sc.nextInt();
 				if (input != 1 && input != 2 && input!=3) {
 					System.out.println("Invalid Data");
 					System.out.println("Please Re-enter Valid Choice:");
@@ -33,7 +33,7 @@ public class Validation {
 			try {
 				int input = sc.nextInt();
 				if (input<=1000 || input>=10000) {
-					System.out.println("Invalid Data");
+					System.out.println("Id > 1000 || Id < 10000");
 					System.out.println("Please Re-enter Valid Choice:");
 				}
 				else

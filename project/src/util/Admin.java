@@ -133,7 +133,7 @@ public class Admin {
 					break;
 				case 3:
 					try {
-						crud.retrieveProducts(db.getConnection());
+						crud.retrieveProductss(db.getConnection());
 					} catch(SQLException e) {
 						e.printStackTrace();
 					}

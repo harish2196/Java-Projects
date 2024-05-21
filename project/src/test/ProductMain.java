@@ -11,7 +11,7 @@ import util.ProductDbConnection;
 import util.ProductList;
 import dao.*;
 public class ProductMain {
-	public static void main(String[] args) throws SQLException{
+	public static void main(String[] args) throws SQLException, ClassNotFoundException{
 		Scanner sc = new Scanner(System.in); 
 		UserRegister ur=new UserRegister();
 		Product p = new Product();
@@ -29,7 +29,7 @@ public class ProductMain {
 			System.out.println("2.Customer");
 			System.out.println("3.Exiting...");
 			System.out.println("Enter your choice: ");
-			choice = v1.isNumeric(choice);
+			choice = v1.isNumeric();
 				switch(choice) {
 				case 1:
 				admin.admin();

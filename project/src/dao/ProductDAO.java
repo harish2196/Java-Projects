@@ -18,6 +18,7 @@ public interface ProductDAO {
 	public boolean isExistsId(Connection connection, int id) throws SQLException;
 	public  boolean isExistsName(Connection connection, String name)throws SQLException;
 	public void  viewProducts(Connection connection)throws SQLException;
-	public void retrieveProducts(Connection connection)throws SQLException;
+	 public void retrieveProduct(Connection connection, int id, String[] productDetails) throws SQLException; 
 	public	void deleteProducts(Connection connection)throws SQLException;
+	public  void retrieveProductss(Connection connection) throws SQLException;
 }
