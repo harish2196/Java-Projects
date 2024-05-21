@@ -49,29 +49,26 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>DOB</th>
-            <th>Password</th>
-            <th>Action</th>
+            <th>Phone Number</th>
+           
         </tr>
         <% 
       
-        ArrayList<FormData> formList = (ArrayList<FormData>) request.getAttribute("formList");
+        ArrayList<FormData> formList = (ArrayList<FormData>) request.getAttribute("formData");
         
         for (FormData formData : formList) { 
         %>
             <tr>
                 <td><%= formData.getName() %></td>
                 <td><%= formData.getEmail() %></td>
-                <td><%= formData.getDob() %></td>
-                <td><%= formData.getPassword() %></td>
+                <td><%= formData.getPhonenumber() %></td>
+               
                 <td>
                  <form action="DemoServ" method="post">
                     <input type="hidden" name="name" value="<%= formData.getName() %>">
                     <input type="hidden" name="email" value="<%= formData.getEmail() %>">
-                     <input type="hidden" name="email" value="<%= formData.getDob() %>">
-                      <input type="hidden" name="email" value="<%= formData.getPassword() %>">
-                    <input type="hidden" name="action" value="delete">
-                    <input type="submit" class="delete-button" value="Delete">
+                     <input type="hidden" name="email" value="<%= formData.getPhonenumber() %>">
+             
                 </td>
             </tr>
         <% } %>

@@ -1,9 +1,11 @@
 package com.chainsys.servlet;
 
 import java.io.IOException;
+import com.chainsys.servlet.Crud; 
+import com.chainsys.servlet.FormData;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,36 +20,47 @@ import java.util.ArrayList;
 @WebServlet("/DemoServ")
 public class DemoServ extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	  ArrayList<FormData> formList = new ArrayList<>();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DemoServ() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	FormData formData=new FormData();
+
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public DemoServ() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("username");
-        String email = request.getParameter("email");
-        String dob = request.getParameter("date");
-        String pass = request.getParameter("password");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String phoneNo=request.getParameter("phonenumber");
+		long phoneNumber = Long.parseLong(phoneNo);
+		
+		formData.setName(name);
+		formData.setEmail(email);
+		formData.setPhonenumber(phoneNumber);
+		
+		try {
+			Crud.insertData(formData);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-        FormData formData = new FormData(name, email, dob, pass);
+		 request.setAttribute("formData", formData);
 
-      
-        formList.add(formData);
-        System.out.println(formList);
-        
+	        request.getRequestDispatcher("table.jsp").forward(request, response);
+		
 
-        request.setAttribute("formList", formList);
 
-        request.getRequestDispatcher("table.jsp").forward(request, response);
-    }
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -55,26 +68,6 @@ public class DemoServ extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    String nameToDelete = request.getParameter("name");
-	    String emailToDelete = request.getParameter("email");
-	    String dobToDelete=request.getParameter("dob");
-	    String passToDelete=request.getParameter("password");
-	   
-	    ArrayList<FormData> updatedList = new ArrayList<>();
-	    
-	  
-	    for (FormData formData : formList) {
-	        if (!formData.getName().equals(nameToDelete) && !formData.getEmail().equals(emailToDelete)) {
-	            updatedList.add(formData);
-	        }
-	    }
-
-	    formList = updatedList;
-
-	    request.setAttribute("formList", formList);
-	    request.getRequestDispatcher("table.jsp").forward(request, response);
-	}
-
+	
 
 }

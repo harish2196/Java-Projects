@@ -3,20 +3,16 @@ package com.chainsys.servlet;
 public class FormData {
 	String name;
 	String email;
-	String dob;
-	String password;
+	long phonenumber;
 
 
 	public FormData() {
 	}
 
-	public FormData(String name, String email, String dob, String password) {
-		this.name = name;
-		this.email = email;
-		this.dob = dob;
-		this.password = password;
+	@Override
+	public String toString() {
+		return "FormData [name=" + name + ", email=" + email + ", phonenumber=" + phonenumber + "]";
 	}
-
 
 	public String getName() {
 		return name;
@@ -34,26 +30,22 @@ public class FormData {
 		this.email = email;
 	}
 
-	public String getDob() {
-		return dob;
+	public long getPhonenumber() {
+		return phonenumber;
 	}
 
-	public void setDob(String dob) {
-		this.dob = dob;
+	public void setPhonenumber(long phonenumber) {
+		this.phonenumber = phonenumber;
 	}
 
-	public String getPassword() {
-		return password;
+	public FormData(String name, String email, long phonenumber) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.phonenumber = phonenumber;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
-	@Override
-	public String toString() {
-		return "FormData [name=" + name + ", email=" + email + ", dob=" + dob + ", password=" + password + "]";
-	}
+	
+	
 }
 
