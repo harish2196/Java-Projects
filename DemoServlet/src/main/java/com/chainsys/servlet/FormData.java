@@ -4,9 +4,25 @@ public class FormData {
 	String name;
 	String email;
 	long phonenumber;
+	int id;
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public FormData() {
+	}
+
+	public FormData(String name, String email, long phonenumber, int id) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.phonenumber = phonenumber;
+		this.id = id;
 	}
 
 	@Override
@@ -38,14 +54,8 @@ public class FormData {
 		this.phonenumber = phonenumber;
 	}
 
-	public FormData(String name, String email, long phonenumber) {
-		super();
-		this.name = name;
-		this.email = email;
-		this.phonenumber = phonenumber;
-	}
 
-	
-	
+
+
 }
 

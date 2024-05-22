@@ -15,5 +15,6 @@ public class ServletConnection {
 
         Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
         return connection;
+    
     }
 }
