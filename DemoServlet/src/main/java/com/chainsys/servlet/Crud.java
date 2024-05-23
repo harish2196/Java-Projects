@@ -77,7 +77,6 @@ public class Crud {
 		if (rowsAffected > 0) {	   
 			deletedFormDataList.add(new FormData()); 
 		}
-
 		return deletedFormDataList;
 	}
 

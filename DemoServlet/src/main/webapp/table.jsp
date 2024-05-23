@@ -14,7 +14,7 @@
 body {
 	padding: 20px;
 	margin: 15px;
-	background-color: #ffcc00;
+	background-color: burlywood;
 }
 
 table {
@@ -54,7 +54,21 @@ tr:hover {
 }
 
 .delete-button:hover {
-	background-color: blueviolet;
+	background-color: rgb(255, 173, 228);
+}
+
+.delete-btn {
+	background-color: rgb(42, 165, 95);
+	color: white;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+	background-color: brown;
 }
 </style>
 </head>
@@ -65,6 +79,7 @@ tr:hover {
 			<th>Name <i class='bx bx-at'></i></th>
 			<th>Email <i class='bx bx-envelope'></i></th>
 			<th>Phone Number <i class='bx bx-phone'></i></th>
+			<th></th>
 			<th></th>
 		</tr>
 		<%
@@ -82,20 +97,12 @@ tr:hover {
 					<button type="submit" class="delete-button">Delete</button>
 				</form>
 			</td>
-			<td>
-				<form action="DemoServ" method="post">
-					<input type="hidden" name="action" value="update"> <input
-						type="hidden" name="id" value="<%=formData.getId()%>"> <input
-						type="text" name="name" value="<%=formData.getName()%>">
+			<td><input type="hidden" name="action" value="edit"> <input
+				type="hidden" name="id" value="<%=formData.getId()%>">
+				<button type="submit" class="delete-btn"
+					onclick="location.href='update.jsp?id=<%=formData.getId() %>'">Update</button>
 			</td>
-			<td><input type="text" name="email"
-				value="<%=formData.getEmail()%>"></td>
-			<td><input type="text" name="phonenumber"
-				value="<%=formData.getPhonenumber()%>"></td>
-			<td>
-				<button type="submit" class="update-button">Update</button>
-				</form>
-			</td>
+
 		</tr>
 
 		<%
