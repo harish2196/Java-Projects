@@ -19,6 +19,7 @@ body {
 
 table {
 	width: 100%;
+	margin-top:4%;
 	border-collapse: collapse;
 }
 
@@ -70,10 +71,40 @@ tr:hover {
 .delete-btn:hover {
 	background-color: brown;
 }
+
+input[type="text"], input[type="submit"] {
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color:transparent;
+	margin-right: 10px;
+	transition: all 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="submit"]:hover {
+	border-color: dodgerblue;
+	box-shadow: 0 0 5px rgba(0, 0, 255, 0.3);
+}
+
+input[type="submit"] {
+	background-color: dodgerblue;
+	color: #fff;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+	background-color: #007bff;
+}
 </style>
 </head>
 <body>
 	<h3>Details</h3>
+	<form action="SearchData" method="post">
+		<input type="text" name="name" placeholder="Search name"> 
+		<input type="submit" value="Search">
+
+	</form>
 	<table>
 		<tr>
 			<th>Name <i class='bx bx-at'></i></th>
@@ -109,6 +140,7 @@ tr:hover {
 		}
 		%>
 	</table>
+
 	<div class="submit">
 		<a href="http://localhost:8080/DemoServlet/">Add More</a>
 	</div>

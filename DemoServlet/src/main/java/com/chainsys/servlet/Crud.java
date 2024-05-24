@@ -83,18 +83,36 @@ public class Crud {
 	public static boolean updateData(FormData formData) throws SQLException {
 		boolean success = false;
 		Connection connection = ServletConnection.getConnection();
-			String query = "UPDATE servlet SET name=?, email=?, phonenumber=? WHERE id=?";
-			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setString(1, formData.getName());
-			statement.setString(2, formData.getEmail());
-			statement.setLong(3, formData.getPhonenumber());
-			statement.setInt(4, formData.getId());
+		String query = "UPDATE servlet SET name=?, email=?, phonenumber=? WHERE id=?";
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setString(1, formData.getName());
+		statement.setString(2, formData.getEmail());
+		statement.setLong(3, formData.getPhonenumber());
+		statement.setInt(4, formData.getId());
 
-			int rowsUpdated = statement.executeUpdate();
-			success = (rowsUpdated > 0);
+		int rowsUpdated = statement.executeUpdate();
+		success = (rowsUpdated > 0);
 
 		return success;
 	}
 
+	public ArrayList<FormData> searchProduct(String str) throws ClassNotFoundException, SQLException {
+	    ArrayList<FormData> formData = new ArrayList<>();
+	    Class.forName("com.mysql.cj.jdbc.Driver");
+	    Connection connection = ServletConnection.getConnection();
+	    String query = "SELECT name, email, phonenumber FROM servlet WHERE name LIKE ?";
+	    PreparedStatement prepareStatement = connection.prepareStatement(query);
+	    prepareStatement.setString(1, str);
+	    ResultSet resultSet = prepareStatement.executeQuery();
+	    while (resultSet.next()) {
+	        FormData data = new FormData();
+	       
+	        data.setName(resultSet.getString("name"));
+	        data.setEmail(resultSet.getString("email"));
+	        data.setPhonenumber(resultSet.getLong("phonenumber"));
+	        formData.add(data);
+	    }
+	    return formData;
+	}
 
 }
