@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="com.chainsys.servlet.FormData"%>
+<%@ page import="com.chainsys.servlet.*"%>
 
 <!DOCTYPE html>
 <html>
@@ -96,53 +96,90 @@ input[type="submit"] {
 input[type="submit"]:hover {
 	background-color: #007bff;
 }
+
+.price-filter-form {
+    margin: 20px;
+}
+
+
+.price-range-select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.filter-button {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #4CAF50; 
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.filter-button:hover {
+    background-color: #45a049;
+}
+
 </style>
 </head>
 <body>
-	<h3>Details</h3>
-	<form action="SearchData" method="post">
-		<input type="text" name="name" placeholder="Search name"> 
-		<input type="submit" value="Search">
+    <h3>Filter Products by Price</h3>
+    <form action="PriceFilterServlet" method="get" class="price-filter-form">
+        <select name="priceRange">
+            <option value="1000-10000">1000-10000</option>
+            <option value="10000-50000">10000-50000</option>
+            <option value="50000-90000">50000-90000</option>
+        </select>
+        <input type="submit" value="Filter">
+    </form>
 
-	</form>
-	<table>
-		<tr>
-			<th>Name <i class='bx bx-at'></i></th>
-			<th>Email <i class='bx bx-envelope'></i></th>
-			<th>Phone Number <i class='bx bx-phone'></i></th>
-			<th></th>
-			<th></th>
-		</tr>
-		<%
-		ArrayList<FormData> formList = (ArrayList<FormData>) request.getAttribute("allFormDataList");
-		for (FormData formData : formList) {
-		%>
-		<tr>
-			<td><%=formData.getName()%></td>
-			<td><%=formData.getEmail()%></td>
-			<td><%=formData.getPhonenumber()%></td>
-			<td>
-				<form action="DemoServ" method="post">
-					<input type="hidden" name="action" value="delete"> <input
-						type="hidden" name="id" value="<%=formData.getId()%>">
-					<button type="submit" class="delete-button">Delete</button>
-				</form>
-			</td>
-			<td><input type="hidden" name="action" value="edit"> <input
-				type="hidden" name="id" value="<%=formData.getId()%>">
-				<button type="submit" class="delete-btn"
-					onclick="location.href='update.jsp?id=<%=formData.getId() %>'">Update</button>
-			</td>
+    <h3>Details</h3>
+    <form action="SearchData" method="post">
+        <input type="text" name="name" placeholder="Search name"> 
+        <input type="submit" value="Search">
+    </form>
+    
+    <table>
+        <tr>
+            <th>Name <i class='bx bx-at'></i></th>
+            <th>Email <i class='bx bx-envelope'></i></th>
+            <th>Phone Number <i class='bx bx-phone'></i></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <%
+        ArrayList<FormData> formList = (ArrayList<FormData>) request.getAttribute("allFormDataList");
+        if (formList != null) {
+            for (FormData formData : formList) {
+        %>
+        <tr>
+            <td><%=formData.getName()%></td>
+            <td><%=formData.getEmail()%></td>
+            <td><%=formData.getPhonenumber()%></td>
+            <td>
+                <form action="DemoServ" method="post">
+                    <input type="hidden" name="action" value="delete"> 
+                    <input type="hidden" name="id" value="<%=formData.getId()%>">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </td>
+            <td>
+                <input type="hidden" name="action" value="edit"> 
+                <input type="hidden" name="id" value="<%=formData.getId()%>">
+                <button type="submit" class="delete-btn" onclick="location.href='update.jsp?id=<%=formData.getId() %>'">Update</button>
+            </td>
+        </tr>
+        <%
+            }
+        }
+        %>
+    </table>
 
-		</tr>
-
-		<%
-		}
-		%>
-	</table>
-
-	<div class="submit">
-		<a href="http://localhost:8080/DemoServlet/">Add More</a>
-	</div>
+    <div class="submit">
+        <a href="http://localhost:8080/DemoServlet/">Add More</a>
+    </div>
 </body>
 </html>

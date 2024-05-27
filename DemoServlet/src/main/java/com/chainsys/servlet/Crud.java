@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -26,7 +27,7 @@ public class Crud {
 
 	public static ArrayList<FormData> getAllData() throws SQLException, ClassNotFoundException {
 		Connection connection = ServletConnection.getConnection();
-		String viewQuery = "SELECT id, name, email, phonenumber FROM servlet";
+		String viewQuery = "SELECT id, name, email, phonenumber FROM servlet ORDER BY name ASC";
 		PreparedStatement preparedStatement = connection.prepareStatement(viewQuery);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -97,22 +98,44 @@ public class Crud {
 	}
 
 	public ArrayList<FormData> searchProduct(String str) throws ClassNotFoundException, SQLException {
-	    ArrayList<FormData> formData = new ArrayList<>();
-	    Class.forName("com.mysql.cj.jdbc.Driver");
-	    Connection connection = ServletConnection.getConnection();
-	    String query = "SELECT name, email, phonenumber FROM servlet WHERE name LIKE ?";
-	    PreparedStatement prepareStatement = connection.prepareStatement(query);
-	    prepareStatement.setString(1, str);
-	    ResultSet resultSet = prepareStatement.executeQuery();
-	    while (resultSet.next()) {
-	        FormData data = new FormData();
-	       
-	        data.setName(resultSet.getString("name"));
-	        data.setEmail(resultSet.getString("email"));
-	        data.setPhonenumber(resultSet.getLong("phonenumber"));
-	        formData.add(data);
-	    }
-	    return formData;
+		ArrayList<FormData> formData = new ArrayList<>();
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection connection = ServletConnection.getConnection();
+		String query = "SELECT name, email, phonenumber FROM servlet WHERE name LIKE ?";
+		PreparedStatement prepareStatement = connection.prepareStatement(query);
+		prepareStatement.setString(1, str);
+		ResultSet resultSet = prepareStatement.executeQuery();
+		while (resultSet.next()) {
+			FormData data = new FormData();
+
+			data.setName(resultSet.getString("name"));
+			data.setEmail(resultSet.getString("email"));
+			data.setPhonenumber(resultSet.getLong("phonenumber"));
+			formData.add(data);
+		}
+		return formData;
 	}
+
+	public ArrayList<FormData> filterPrice(double minPrice,double maxPrice) throws ClassNotFoundException, SQLException {
+		ArrayList<FormData> formData = new ArrayList<>();
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection connection = ServletConnection.getConnection();
+		String filterPrice = "SELECT name, email, phonenumber FROM servlet WHERE phonenumber BETWEEN ? AND ?";
+		PreparedStatement statement = connection.prepareStatement(filterPrice);
+		statement.setDouble(1, minPrice);
+		statement.setDouble(2, maxPrice);
+
+		ResultSet   resultSet = statement.executeQuery();
+		while (resultSet.next()) {
+			FormData data = new FormData();
+			data.setName(resultSet.getString("name"));
+			data.setEmail(resultSet.getString("email"));
+			data.setPhonenumber(resultSet.getLong("phonenumber"));
+			formData.add(data);
+		}
+		return formData;
+	}
+
+	
 
 }
