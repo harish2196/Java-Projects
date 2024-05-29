@@ -1,12 +1,8 @@
- <%
- response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
- response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
- response.setHeader("Expires", "0"); // Proxies.
-if(session.getAttribute("uname")==null){
- response.sendRedirect("login.jsp");	
+<%
+if(session.getAttribute("name") == null){
+    response.sendRedirect("login.jsp");	
 }
 %> 
-
 
 <!DOCTYPE html>
 <html>
@@ -28,10 +24,9 @@ if(session.getAttribute("uname")==null){
 .button:hover {
   background-color: #0056b3; 
 }
-
 </style>
 <body>
-    <h2>Simple Form Example</h2>
+    <h2>Simple Form</h2>
     <form action="submitForm.jsp" method="post">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name"><br><br>
@@ -41,6 +36,5 @@ if(session.getAttribute("uname")==null){
     </form>
     
    <button type="button" class="btn btn-dark" onclick="window.location.href='http://localhost:8080/ProductServlet/login.jsp'">Log out</button>
-     
 </body>
 </html>
