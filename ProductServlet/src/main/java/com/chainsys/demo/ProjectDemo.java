@@ -37,32 +37,39 @@ public class ProjectDemo extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String uname=request.getParameter("name");
-		String uemail=request.getParameter("email");
-		String upassword=request.getParameter("pass");
-		String umobile=request.getParameter("contact");
-		RequestDispatcher dispatcher=null;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/demo","root","root");
-			String insert = "INSERT INTO pricingdemo (uname,uemail,upassword,umobile) VALUES (?,?,?,?)";
-			PreparedStatement preparedStatement = connection.prepareStatement(insert);
-			preparedStatement.setString(1,uname);
-			preparedStatement.setString(2,uemail);
-			preparedStatement.setString(3,upassword);
-			preparedStatement.setString(4,umobile);
+	    String uname1 = request.getParameter("name");
+	    String uemail = request.getParameter("email");
+	    String upassword = request.getParameter("pass");
+	    String umobile = request.getParameter("contact");
+	    RequestDispatcher dispatcher = null;
+	    try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "root", "root");
+	        String insertQuery = "INSERT INTO pricingdemo (uname, uemail, upassword, umobile, emp_code) VALUES (?, ?, ?, ?, ?)";
+	        PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+	        preparedStatement.setString(1, uname1);
+	        preparedStatement.setString(2, uemail);
+	        preparedStatement.setString(3, upassword);
+	        preparedStatement.setString(4, umobile);
+	        
+	     
+	        int randomNumber = 1000 + (int) (Math.random() * 9000);
+	        preparedStatement.setInt(5, randomNumber); 
+	   
+	        request.setAttribute("randomNumber", randomNumber);
 
-			int rowCount=preparedStatement.executeUpdate();
-			dispatcher= request.getRequestDispatcher("registration.jsp");
-			if (rowCount > 0) {
-				request.setAttribute("status", "success");
-			}else {
-				request.setAttribute("status", "failed");
-			}
-			dispatcher.forward(request, response);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+	        int rowCount = preparedStatement.executeUpdate();
+	        dispatcher = request.getRequestDispatcher("registration.jsp");
+	        if (rowCount > 0) {
+	            request.setAttribute("status", "success");
+	        } else {
+	            request.setAttribute("status", "failed");
+	        }
+	        dispatcher.forward(request, response);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 
 	}
+
 }

@@ -33,8 +33,9 @@ public class Login extends HttpServlet {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "root","root"); 
-            String viewQuery = "SELECT * FROM pricingdemo WHERE uname=? and upassword=?";
+            String viewQuery = "SELECT * FROM pricingdemo WHERE uname=? AND upassword=?";
             PreparedStatement preparedStatement = connection.prepareStatement(viewQuery);
+           
             preparedStatement.setString(1, uname);
             preparedStatement.setString(2, upassword);
 
@@ -42,7 +43,8 @@ public class Login extends HttpServlet {
             if (rs.next()) {
                 session.setAttribute("name", rs.getString("uname"));
                 dispatcher = request.getRequestDispatcher("index.jsp");
-            } else {
+            }
+            else {
                 request.setAttribute("status", "failed");
                 dispatcher = request.getRequestDispatcher("login.jsp");
             }
