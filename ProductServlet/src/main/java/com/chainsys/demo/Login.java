@@ -25,32 +25,36 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String uname = request.getParameter("username");
-        String upassword = request.getParameter("password");
+    	   User user = new User();
+           user.setName(request.getParameter("username"));
+           user.setPassword(request.getParameter("password"));
+        
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "root","root"); 
-            String viewQuery = "SELECT * FROM pricingdemo WHERE uname=? AND upassword=?";
+            String viewQuery = "SELECT * FROM Pricing_demo WHERE username=? AND userpassword=?";
             PreparedStatement preparedStatement = connection.prepareStatement(viewQuery);
            
-            preparedStatement.setString(1, uname);
-            preparedStatement.setString(2, upassword);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getPassword());
 
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                session.setAttribute("name", rs.getString("uname"));
+                session.setAttribute("name", rs.getString("username"));
                 dispatcher = request.getRequestDispatcher("index.jsp");
             }
             else {
                 request.setAttribute("status", "failed");
                 dispatcher = request.getRequestDispatcher("login.jsp");
             }
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
-        }
+            request.setAttribute("status", "error");
+            dispatcher = request.getRequestDispatcher("login.jsp");
+        } 
         
      
         if (dispatcher != null) {

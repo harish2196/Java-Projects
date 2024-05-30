@@ -36,21 +36,22 @@ public class ProjectDemo extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-	    String uname1 = request.getParameter("name");
-	    String uemail = request.getParameter("email");
-	    String upassword = request.getParameter("pass");
-	    String umobile = request.getParameter("contact");
+		User user = new User();
+        user.setName(request.getParameter("name"));
+        user.setEmail(request.getParameter("email"));
+        user.setPassword(request.getParameter("pass"));
+        user.setMobile(request.getParameter("contact"));
+	    
 	    RequestDispatcher dispatcher = null;
 	    try {
 	        Class.forName("com.mysql.cj.jdbc.Driver");
 	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "root", "root");
-	        String insertQuery = "INSERT INTO pricingdemo (uname, uemail, upassword, umobile, emp_code) VALUES (?, ?, ?, ?, ?)";
-	        PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-	        preparedStatement.setString(1, uname1);
-	        preparedStatement.setString(2, uemail);
-	        preparedStatement.setString(3, upassword);
-	        preparedStatement.setString(4, umobile);
+	        String insertQuery = "INSERT INTO Pricing_demo (username, useremail, userpassword, usermobile, emp_code) VALUES (?, ?, ?, ?, ?)";
+	       PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setString(4, user.getMobile());
 	        
 	     
 	        int randomNumber = 1000 + (int) (Math.random() * 9000);
