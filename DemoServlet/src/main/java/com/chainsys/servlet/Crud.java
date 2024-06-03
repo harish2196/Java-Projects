@@ -14,7 +14,7 @@ public class Crud {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection connection= ServletConnection.getConnection();
 
-		String insertRating = "INSERT INTO servlet (name,email,phonenumber) VALUES (?,?,?)";
+		String insertRating = "INSERT INTO servlet (name,email,phonenumber,active) VALUES (?,?,?,1)";
 		PreparedStatement preparedStatement = connection.prepareStatement(insertRating);
 		preparedStatement.setString(1, formData.getName());
 		preparedStatement.setString(2, formData.getEmail());
@@ -27,7 +27,7 @@ public class Crud {
 
 	public static ArrayList<FormData> getAllData() throws SQLException, ClassNotFoundException {
 		Connection connection = ServletConnection.getConnection();
-		String viewQuery = "SELECT id, name, email, phonenumber FROM servlet ORDER BY name ASC";
+		String viewQuery = "SELECT id, name, email, phonenumber FROM servlet WHERE active ='1'ORDER BY name ASC";
 		PreparedStatement preparedStatement = connection.prepareStatement(viewQuery);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -70,7 +70,7 @@ public class Crud {
 		Connection connection = ServletConnection.getConnection();
 
 		ArrayList<FormData> deletedFormDataList = new ArrayList<>();
-		String query = "DELETE FROM servlet WHERE id=?";
+		String query = "UPDATE servlet SET active='0' WHERE	id=?";
 		PreparedStatement  statement = connection.prepareStatement(query);
 		statement.setInt(1, id);
 		int rowsAffected = statement.executeUpdate();

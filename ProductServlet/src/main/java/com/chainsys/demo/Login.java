@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,6 +22,35 @@ public class Login extends HttpServlet {
     public Login() {
         super();
     }
+    
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        int empCode = (int) session.getAttribute("emp_code");
+        Connection connection = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "root", "root");
+            insertCheckOutTime(connection, empCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+        session.invalidate();
+        response.sendRedirect("login.jsp");
+    }
+
+    public void insertCheckOutTime(Connection connection, int emp_code) {
+        try {
+            String insertCheckOutQuery = "UPDATE check_ins SET checkout_time = NOW() WHERE emp_code = ? AND checkout_time IS NULL";
+            PreparedStatement insertCheckOutStatement = connection.prepareStatement(insertCheckOutQuery);
+            insertCheckOutStatement.setInt(1, emp_code);
+            insertCheckOutStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,7 +65,7 @@ public class Login extends HttpServlet {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "root", "root");
-            String viewQuery = "SELECT * FROM Pricing_demo WHERE username=? AND userpassword=?";
+            String viewQuery = "SELECT * FROM Employee_details WHERE username=? AND userpassword=?";
             PreparedStatement preparedStatement = connection.prepareStatement(viewQuery);
 
             preparedStatement.setString(1, user.getName());
@@ -44,9 +74,9 @@ public class Login extends HttpServlet {
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 session.setAttribute("name", rs.getString("username"));
-                int empCode = rs.getInt("emp_code");
+                String empCode = rs.getString("emp_code");
                 session.setAttribute("emp_code", empCode);  
-                dispatcher = request.getRequestDispatcher("index.jsp");
+                dispatcher = request.getRequestDispatcher("Leave.jsp");
 
                 
                 insertCheckInTime(connection, empCode);
@@ -65,11 +95,11 @@ public class Login extends HttpServlet {
         }
     }
 
-    private void insertCheckInTime(Connection connection, int emp_code) {
+    public void insertCheckInTime(Connection connection, String emp_code) {
         try {
             String insertCheckInQuery = "INSERT INTO check_ins (emp_code, checkin_time) VALUES (?, NOW())";
             PreparedStatement insertCheckInStatement = connection.prepareStatement(insertCheckInQuery);
-            insertCheckInStatement.setInt(1, emp_code);
+            insertCheckInStatement.setString(1, emp_code);
             insertCheckInStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

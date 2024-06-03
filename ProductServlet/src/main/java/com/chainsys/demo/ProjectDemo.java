@@ -46,7 +46,7 @@ public class ProjectDemo extends HttpServlet {
 	    try {
 	        Class.forName("com.mysql.cj.jdbc.Driver");
 	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "root", "root");
-	        String insertQuery = "INSERT INTO Pricing_demo (username, useremail, userpassword, usermobile, emp_code) VALUES (?, ?, ?, ?, ?)";
+	        String insertQuery = "INSERT INTO Employee_details (username, useremail, userpassword, usermobile, emp_code) VALUES (?, ?, ?, ?, ?)";
 	       PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());

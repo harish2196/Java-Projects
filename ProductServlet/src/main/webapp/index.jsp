@@ -20,21 +20,14 @@ if(session.getAttribute("name") == null){
   border-radius: 5px; 
   cursor: pointer; 
 }
-
-.button:hover {
+.button:hover{
   background-color: #0056b3; 
 }
 </style>
 <body>
     <h2>Simple Form</h2>
-    <form action="submitForm.jsp" method="post">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br><br>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br><br>
-        <input type="submit" value="Submit">
+    <form action="Login" method="get">  
+        <a href="http://localhost:8080/ProductServlet/login.jsp"> <input type="submit" value="Logout"></a>
     </form>
-    
-   <button type="button" class="btn btn-dark" onclick="window.location.href='http://localhost:8080/ProductServlet/login.jsp'">Log out</button>
-</body>
+ </body>
 </html>

@@ -94,6 +94,7 @@ public class CrudOperations implements ProductDAO{
 
 		System.out.println("Enter Name:");
 		String name = sc.next();
+		
 		while (!v1.validateString(name)) {
 			System.out.println("Please Re-Enter your Name:");
 			name = sc.next();

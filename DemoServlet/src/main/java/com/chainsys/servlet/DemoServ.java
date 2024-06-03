@@ -50,7 +50,6 @@ public class DemoServ extends HttpServlet {
 
 		try {
 			Crud.insertData(formData);
-
 			ArrayList<FormData> allFormDataList = Crud.getAllData();
 			ArrayList<FormData> formDataListById = Crud.retrieveData(3);
 			request.setAttribute("allFormDataList", allFormDataList);
