@@ -25,9 +25,9 @@ if(session.getAttribute("name") == null){
 }
 </style>
 <body>
-    <h2>Simple Form</h2>
+   
     <form action="Login" method="get">  
-        <a href="http://localhost:8080/ProductServlet/login.jsp"> <input type="submit" value="Logout"></a>
+        <a href="http://localhost:8080/ProductServlet/"> <input type="submit" value="Logout"></a>
     </form>
  </body>
 </html>

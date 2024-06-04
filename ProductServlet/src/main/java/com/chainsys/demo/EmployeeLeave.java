@@ -2,7 +2,9 @@ package com.chainsys.demo;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,9 +19,19 @@ public class EmployeeLeave extends HttpServlet {
     public EmployeeLeave() {
         super();
     }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().append("Served at: ").append(request.getContextPath());
+        HttpSession session = request.getSession();
+        String empCode = (String) session.getAttribute("emp_code");
+       
+        try {
+            ArrayList<User> userList = QueryManager.getEmpData(empCode);
+            request.setAttribute("userList", userList);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("viewEmpData.jsp");
+            dispatcher.forward(request, response);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+         
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

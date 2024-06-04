@@ -26,7 +26,7 @@ public class Login extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int empCode = (int) session.getAttribute("emp_code");
+        String empCode = (String) session.getAttribute("emp_code");
         Connection connection = null;
 
         try {
@@ -40,11 +40,11 @@ public class Login extends HttpServlet {
         response.sendRedirect("login.jsp");
     }
 
-    public void insertCheckOutTime(Connection connection, int emp_code) {
+    public void insertCheckOutTime(Connection connection, String emp_code) {
         try {
             String insertCheckOutQuery = "UPDATE check_ins SET checkout_time = NOW() WHERE emp_code = ? AND checkout_time IS NULL";
             PreparedStatement insertCheckOutStatement = connection.prepareStatement(insertCheckOutQuery);
-            insertCheckOutStatement.setInt(1, emp_code);
+            insertCheckOutStatement.setString(1, emp_code);
             insertCheckOutStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,7 +54,7 @@ public class Login extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+    	System.out.println("Login Servlet");
         User user = new User();
         user.setName(request.getParameter("username"));
         user.setPassword(request.getParameter("password"));
@@ -73,10 +73,11 @@ public class Login extends HttpServlet {
 
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
+            
                 session.setAttribute("name", rs.getString("username"));
                 String empCode = rs.getString("emp_code");
                 session.setAttribute("emp_code", empCode);  
-                dispatcher = request.getRequestDispatcher("Leave.jsp");
+                dispatcher = request.getRequestDispatcher("LeaveSummary.jsp");
 
                 
                 insertCheckInTime(connection, empCode);

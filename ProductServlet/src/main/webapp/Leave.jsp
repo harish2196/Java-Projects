@@ -76,8 +76,8 @@
 <body>
     <form class="leave-form" action="EmployeeLeave" method="post" onsubmit="return validateDates()">
         <h2>Leave Application</h2>
-        <label for="empId">Employee ID</label>
-        <input type="text" id="empId" name="empId" required>
+       <!--  <label for="empId">Employee ID</label>
+        <input type="text" id="empId" name="empId" required> -->
         
         <label for="name">Name</label>
         <input type="text" id="name" name="name" required>
