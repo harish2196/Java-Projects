@@ -10,8 +10,6 @@ import com.mysql.cj.Session;
 
 public class QueryManager {
 	public static void insertData(User user, String empCode) throws SQLException, ClassNotFoundException {
-
-
 		Connection   connection = DBManager.getConnection();
 		String leaveInserting = "INSERT INTO Leave_report (emp_code, name, from_date, to_date, leave_type) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement   preparedStatement = connection.prepareStatement(leaveInserting);
@@ -31,6 +29,76 @@ public class QueryManager {
 
 	}
 
+//	public static void insertPermission(User user, String empCode) throws SQLException, ClassNotFoundException {
+//	    Connection connection = null;
+//	    PreparedStatement preparedStatement = null;
+//
+//	    try {
+//	        connection = DBManager.getConnection();
+//	        String insertPermissionQuery = "INSERT INTO permission_count (emp_code, name, date, start_time, end_time, permission) VALUES (?, ?, ?, ?, ?, 1)";
+//	        preparedStatement = connection.prepareStatement(insertPermissionQuery);
+//
+//	        preparedStatement.setString(1, empCode);
+//	        preparedStatement.setString(2, user.getName());
+//	        preparedStatement.setString(3, user.getDate());
+//	        preparedStatement.setString(4, user.getStart_time());
+//	        preparedStatement.setString(5, user.getEnd_time());
+//
+//	        int rowCount = preparedStatement.executeUpdate();
+//	        if (rowCount > 0) {
+//	            System.out.println("Data inserted/updated successfully.");
+//	        } else {
+//	            System.out.println("Data insertion/update failed.");
+//	        }
+//	    } finally {
+//	        // Close the resources
+//	        if (preparedStatement != null) {
+//	            preparedStatement.close();
+//	        }
+//	        if (connection != null) {
+//	            connection.close();
+//	        }
+//	    }
+//	}
+//	
+	
+	public static void insertPermission(User user, String empCode) throws SQLException, ClassNotFoundException {
+	    Connection connection = DBManager.getConnection();	
+	        String checkPermissionQuery = "SELECT COUNT(*) FROM permission_count WHERE emp_code = ?";
+	        PreparedStatement preparedStatement = connection.prepareStatement(checkPermissionQuery);
+	        preparedStatement.setString(1, empCode);
+	        ResultSet  resultSet = preparedStatement.executeQuery();
+
+	        int existingPermissionCount = 0;
+	        if (resultSet.next()) {
+	            existingPermissionCount = resultSet.getInt(1);
+	        }
+
+	        if (existingPermissionCount > 0) {
+	            
+	            String updatePermissionQuery = "UPDATE permission_count SET permission = permission + 1 WHERE emp_code = ?";
+	            preparedStatement = connection.prepareStatement(updatePermissionQuery);
+	            preparedStatement.setString(1, empCode);
+	        } else {
+	           
+	            String insertPermissionQuery = "INSERT INTO permission_count (emp_code, name, date, start_time, end_time, permission) VALUES (?, ?, ?, ?, ?, 1)";
+	            preparedStatement = connection.prepareStatement(insertPermissionQuery);
+	            preparedStatement.setString(1, empCode);
+	            preparedStatement.setString(2, user.getName());
+	            preparedStatement.setString(3, user.getDate());
+	            preparedStatement.setString(4, user.getStart_time());
+	            preparedStatement.setString(5, user.getEnd_time());
+	        }
+
+	        int rowCount = preparedStatement.executeUpdate();
+	        if (rowCount > 0) {
+	            System.out.println("Data inserted/updated successfully.");
+	        } else {
+	            System.out.println("Data insertion/update failed.");
+	        }
+	    } 
+
+	
 	public static ArrayList<User> getEmpData(String empCode) throws SQLException, ClassNotFoundException {
 		Connection connection = DBManager.getConnection();
 		ArrayList<User> userList = new ArrayList<>();

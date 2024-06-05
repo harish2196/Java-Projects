@@ -77,9 +77,7 @@
 <body>
     <form class="leave-form" action="EmployeeLeave" method="post" onsubmit="return validateDates()">
         <h2>Leave Application</h2>
-       <!--  <label for="empId">Employee ID</label>
-        <input type="text" id="empId" name="empId" required> -->
-        
+             
         <label for="name">Name</label>
         <input type="text" id="name" name="name" required>
         
@@ -100,14 +98,16 @@
         
         <button type="submit">Submit</button>
     </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script>
         function validateDates() {
             var fromDate = document.getElementById("fromDate").value;
             var toDate = document.getElementById("toDate").value;
 
             if (toDate <= fromDate) {
-                alert("To date must be greater than From date");
-                return false;
+            	swal("Error", "To date must be greater than From date.", "error");
+                return false; 
+                
             }
 
             return true;

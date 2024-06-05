@@ -13,6 +13,48 @@ public class User {
 	String leaveType;
 	String reason;
 	int total_days;
+	String date;
+	String start_time;
+	
+	
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getStart_time() {
+		return start_time;
+	}
+	public void setStart_time(String start_time) {
+		this.start_time = start_time;
+	}
+	public User(int id, String name, String email, String password, String mobile, String empCode, String toDate,
+			String fromDate, String leaveType, String reason, int total_days, String date, String start_time,
+			String end_time) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.mobile = mobile;
+		this.empCode = empCode;
+		this.toDate = toDate;
+		this.fromDate = fromDate;
+		this.leaveType = leaveType;
+		this.reason = reason;
+		this.total_days = total_days;
+		this.date = date;
+		this.start_time = start_time;
+		this.end_time = end_time;
+	}
+	public String getEnd_time() {
+		return end_time;
+	}
+	public void setEnd_time(String end_time) {
+		this.end_time = end_time;
+	}
+	String end_time;
 	
 	public int getId() {
 		return id;
@@ -57,28 +99,7 @@ public class User {
 	public String getToDate() {
 		return toDate;
 	}
-	public User(int id, String name, String email, String password, String mobile, String empCode, String toDate,
-			String fromDate, String leaveType, String reason, int total_days) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.mobile = mobile;
-		this.empCode = empCode;
-		this.toDate = toDate;
-		this.fromDate = fromDate;
-		this.leaveType = leaveType;
-		this.reason = reason;
-		this.total_days = total_days;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", mobile="
-				+ mobile + ", empCode=" + empCode + ", toDate=" + toDate + ", fromDate=" + fromDate + ", leaveType="
-				+ leaveType + ", reason=" + reason + ", total_days=" + total_days + "]";
-	}
+	
 	public int getTotal_days() {
 		return total_days;
 	}
