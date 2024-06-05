@@ -96,7 +96,7 @@
         </select>
         
         <label for="reason">Reason</label>
-        <textarea id="reason" name="reason" rows="4" required></textarea>
+        <textarea id="reason" name="reason" rows="4" ></textarea>
         
         <button type="submit">Submit</button>
     </form>

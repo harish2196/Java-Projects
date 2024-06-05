@@ -2,6 +2,7 @@ package com.chainsys.demo;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,8 +44,11 @@ public class LeaveCount extends HttpServlet {
 		try {
 			int totalLeaveDays = QueryManager.getTotalLeaveDays(empCode);	
 			user.setTotal_days(totalLeaveDays);
-			request.setAttribute("totalLeaveDays", totalLeaveDays);
+			//request.setAttribute("totalLeaveDays", totalLeaveDays);
 			QueryManager.insertTotalLeaveDays(empCode, totalLeaveDays);
+			 ArrayList<User> userList = QueryManager.getEmpLeaveCount(empCode);
+			
+	            request.setAttribute("userList", userList);
 
 			request.getRequestDispatcher("LeaveSummary.jsp").forward(request, response);
 		} catch (SQLException | ClassNotFoundException e) {

@@ -87,6 +87,27 @@ public class QueryManager {
 	        return false;
 	    }
 	}
+	
+	public static ArrayList<User> getEmpLeaveCount(String empCode) throws SQLException, ClassNotFoundException {
+		Connection connection = DBManager.getConnection();
+		ArrayList<User> userList = new ArrayList<>();
+		String query = "SELECT * FROM Leave_report WHERE emp_code = ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, empCode);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		while (resultSet.next()) {
+			User user = new User();
+			user.setEmpCode(resultSet.getString("emp_code"));
+			user.setName(resultSet.getString("name"));
+			user.setFromDate(resultSet.getString("from_date"));
+			user.setToDate(resultSet.getString("to_date"));
+			user.setLeaveType(resultSet.getString("leave_type"));
+			user.setTotal_days(resultSet.getInt("leave_Count"));
+			userList.add(user);
+		} 
+		return userList;
+	}
+	
 
 }
 

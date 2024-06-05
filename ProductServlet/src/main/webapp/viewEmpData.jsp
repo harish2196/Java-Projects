@@ -36,8 +36,7 @@
                 <th>Name</th>
                 <th>From Date</th>
                 <th>To Date</th>
-                <th>Leave_Type</th>
-                <th>Leave_Count</th>
+                <th>Leave Type</th>
             </tr>
             <% 
             ArrayList<User> userList = (ArrayList<User>) request.getAttribute("userList");
@@ -55,7 +54,6 @@
                     <td><%= user.getFromDate() %></td>
                     <td><%= user.getToDate() %></td>
                     <td><%= user.getLeaveType() %></td>
-                    <td><%= user.getTotal_days() %></td>
                 </tr>
             <% 
                 }

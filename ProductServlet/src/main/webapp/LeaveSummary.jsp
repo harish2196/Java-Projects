@@ -1,43 +1,68 @@
+<%@page import="com.chainsys.demo.User"%>
+<%@page import="com.chainsys.demo.QueryManager"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Leave Summary</title>
+    <meta charset="UTF-8">
+    <title>User Details</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-        .leave-form {
-            max-width: 300px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
-        .leave-form p {
-            margin: 0 0 10px;
+        th {
+            background-color: #f2f2f2;
         }
-        .leave-form input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .leave-form input[type="submit"]:hover {
-            background-color: #0056b3;
+        tr:hover {
+            background-color: #f5f5f5;
         }
     </style>
 </head>
 <body>
-    <div class="leave-form">
-        <form action="LeaveCount" method="post">
-            <p>Total Leave Days: <%= request.getAttribute("totalLeaveDays") %></p>
-            <input type="submit" value="View">
-        </form>
-    </div>
+    <h1>Employee Details</h1>
+    <form action="LeaveCount" method="post">
+        <table>
+            <tr>
+                <th>Employee Code</th>
+                <th>Name</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Leave_Type</th>
+                <th>Leave_count</th>
+            </tr>
+            <% 
+            ArrayList<User> userList = (ArrayList<User>) request.getAttribute("userList");
+            if (userList == null || userList.isEmpty()) { 
+            %>
+                <tr>
+                    <td colspan="5">No user found for the provided employee code.</td>
+                </tr>
+            <% } else { 
+                for (User user : userList) {
+            %>
+                <tr>
+                    <td><%= user.getEmpCode() %></td>
+                    <td><%= user.getName() %></td>
+                    <td><%= user.getFromDate() %></td>
+                    <td><%= user.getToDate() %></td>
+                    <td><%= user.getLeaveType() %></td>
+                    <td><%= user.getTotal_days() %></td>
+                </tr>
+            <% 
+                }
+            } 
+            %>
+        </table>
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
