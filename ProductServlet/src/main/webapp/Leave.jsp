@@ -23,6 +23,7 @@
             background-color: lightgray;
             padding: 20px;
             border-radius: 8px;
+               min-height: 93vh;
             border: none;  
             box-shadow: 0 0 18px rgba(11, 0, 0, 0.1);
              width: 700px;
@@ -30,12 +31,12 @@
         }
         .leave-form h2 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             color: #333;
         }
         .leave-form label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 11px;
             color: #333;
         }
         .leave-form input[type="text"], .leave-form input[type="date"], .leave-form select, .leave-form textarea {

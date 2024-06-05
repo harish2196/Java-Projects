@@ -47,7 +47,7 @@ public class EmployeeLeave extends HttpServlet {
         String empCode = (String) session.getAttribute("emp_code");
         try {
             QueryManager.insertData(user, empCode);
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("LeaveSummary.jsp");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");

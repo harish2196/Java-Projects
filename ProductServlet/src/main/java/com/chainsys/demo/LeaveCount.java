@@ -33,15 +33,16 @@ public class LeaveCount extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		User user=new User();
 		HttpSession session = request.getSession();
 		String empCode = (String) session.getAttribute("emp_code");
 
 		try {
 			int totalLeaveDays = QueryManager.getTotalLeaveDays(empCode);	
+			user.setTotal_days(totalLeaveDays);
 			request.setAttribute("totalLeaveDays", totalLeaveDays);
 			QueryManager.insertTotalLeaveDays(empCode, totalLeaveDays);
 
