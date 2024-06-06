@@ -299,7 +299,7 @@
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="custom-dropdown-content">
-                <a href="ViewPermission.jsp">Apply Permission</a>
+                <a href="PermissionForm.jsp">Apply Permission</a>
                 <a href="Leave.jsp">Apply Leave</a>
             </div>
         </div>

@@ -26,25 +26,10 @@
             background-color: #f5f5f5;
         }
     </style>
-    <script>
-        function acceptRequest(acceptButton) {
-            var rejectButton = acceptButton.nextElementSibling;
-            rejectButton.style.display = 'none';
-            acceptButton.disabled = true;
-          
-        }
-
-        function rejectRequest(rejectButton) {
-            var acceptButton = rejectButton.previousElementSibling;
-            acceptButton.style.display = 'none';
-            rejectButton.disabled = true;
-            
-        }
-    </script>
 </head>
 <body>
     <h1>Employee Details</h1>
-    <form action="LeaveCount" method="post">
+    <form action="LeaveCount" method="get">
         <table>
             <tr>
                 <th>Employee Code</th>
@@ -53,7 +38,7 @@
                 <th>To Date</th>
                 <th>Leave_Type</th>
                 <th>Leave_count</th>
-                <th>Action</th>
+              <th>Status</th>
             </tr>
             <% 
             ArrayList<User> userList = (ArrayList<User>) request.getAttribute("userList");
@@ -72,10 +57,17 @@
                     <td><%= user.getToDate() %></td>
                     <td><%= user.getLeaveType() %></td>
                     <td><%= user.getTotal_days() %></td>
-                    <td>
-                        <button onclick="acceptRequest(this)">Accept</button>
-                        <button onclick="rejectRequest(this)">Reject</button>
-                    </td>
+                    <td><%= user.getStatus() %>
+                      <td name="status">
+    <form action="LeaveCount" method="get">
+        <input type="hidden" name="action" value="Accepted">
+        <button type="submit">Accept</button>
+    </form>
+    <form action="LeaveCount" method="get">
+        <input type="hidden" name="action" value="Rejected">
+        <button type="submit">Reject</button>
+    </form>
+</td>
                 </tr>
             <% 
                 }
@@ -84,5 +76,20 @@
         </table>
         <input type="submit" value="Submit">
     </form>
+      <script>
+        function acceptRequest(acceptButton) {
+            var rejectButton = acceptButton.nextElementSibling;
+            rejectButton.style.display = 'none';
+            acceptButton.disabled = true;
+          
+        }
+
+        function rejectRequest(rejectButton) {
+            var acceptButton = rejectButton.previousElementSibling;
+            acceptButton.style.display = 'none';
+            rejectButton.disabled = true;
+            
+        }
+    </script>
 </body>
 </html>

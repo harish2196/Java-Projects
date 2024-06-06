@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/LeaveCount")
 public class LeaveCount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	User user=new User();
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -26,25 +26,45 @@ public class LeaveCount extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	    HttpSession session = request.getSession();
+	    String empCode = (String) session.getAttribute("emp_code");
+
+	    String status = request.getParameter("action");
+	    try {
+	        if (status != null) {
+	            QueryManager.updateLeaveStatus(empCode, status);
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        e.printStackTrace();
+	      
+	    }
+
+	    try {
+	        int totalLeaveDays = QueryManager.getTotalLeaveDays(empCode);
+	        User user = new User(); 
+	        user.setTotal_days(totalLeaveDays);
+	        QueryManager.insertTotalLeaveDays(empCode, totalLeaveDays);
+	        ArrayList<User> userList = QueryManager.getEmpLeaveCount(empCode);
+	        request.setAttribute("userList", userList);
+	        request.getRequestDispatcher("LeaveSummary.jsp").forward(request, response);
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	       
+	    }
 	}
 
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user=new User();
+		
 		HttpSession session = request.getSession();
 		String empCode = (String) session.getAttribute("emp_code");
 
 		try {
 			int totalLeaveDays = QueryManager.getTotalLeaveDays(empCode);	
-			user.setTotal_days(totalLeaveDays);
-			//request.setAttribute("totalLeaveDays", totalLeaveDays);
+			user.setTotal_days(totalLeaveDays);			
 			QueryManager.insertTotalLeaveDays(empCode, totalLeaveDays);
 			 ArrayList<User> userList = QueryManager.getEmpLeaveCount(empCode);
 			

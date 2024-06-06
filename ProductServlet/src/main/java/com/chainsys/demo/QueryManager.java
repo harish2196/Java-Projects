@@ -81,6 +81,7 @@ public class QueryManager {
 			user.setFromDate(resultSet.getString("from_date"));
 			user.setToDate(resultSet.getString("to_date"));
 			user.setLeaveType(resultSet.getString("leave_type"));
+			user.setStatus(resultSet.getString("status"));
 			userList.add(user);
 		} 
 		return userList;
@@ -123,6 +124,48 @@ public class QueryManager {
 	        return false;
 	    }
 	}
+	
+	
+	
+	public static boolean updatePermissionStatus(String empCode, String status) throws SQLException, ClassNotFoundException {
+	    Connection connection = DBManager.getConnection();
+	    String query="UPDATE permission_count SET status = ? WHERE emp_code = ?";
+	    PreparedStatement preparedStatement = connection.prepareStatement(query);
+	    
+	    preparedStatement.setString(1, status); 
+        preparedStatement.setString(2, empCode); 
+	        
+	    int rowCount = preparedStatement.executeUpdate();
+	    
+	    if (rowCount > 0) {
+	        System.out.println("Data inserted successfully.");
+	        return true;
+	    } else {
+	        System.out.println("Data insertion failed.");
+	        return false;
+	    }
+	}
+	
+	
+	public static boolean updateLeaveStatus(String empCode, String status) throws SQLException, ClassNotFoundException {
+	    Connection connection = DBManager.getConnection();
+	    String query="UPDATE Leave_report SET status = ? WHERE emp_code = ?";
+	    PreparedStatement preparedStatement = connection.prepareStatement(query);
+	    
+	    preparedStatement.setString(1, status); 
+        preparedStatement.setString(2, empCode); 
+	        
+	    int rowCount = preparedStatement.executeUpdate();
+	    
+	    if (rowCount > 0) {
+	        System.out.println("Data inserted successfully.");
+	        return true;
+	    } else {
+	        System.out.println("Data insertion failed.");
+	        return false;
+	    }
+	}
+	
 	
 	public static ArrayList<User> getEmpLeaveCount(String empCode) throws SQLException, ClassNotFoundException {
 		Connection connection = DBManager.getConnection();
@@ -167,6 +210,8 @@ public class QueryManager {
 	    	        
 	        return userList;
 	    }
+	 
+	 
 	
 }
 

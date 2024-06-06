@@ -24,19 +24,38 @@
         tr:hover {
             background-color: #f5f5f5;
         }
+           .custom-button {
+        border: none;
+        background-color: #4CAF50; 
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+ 
+    .custom-button:hover {
+        background-color: #45a049; 
+    }
+
+    
+    form {
+        display: inline;
+        margin: 0;
+        padding: 0;
+    }
     </style>
 </head>
 <body>
-    <h1>User Permission Details</h1>
+    <h1>Employee Permission Details</h1>
     <form action="PermissionManager" method="get">
-     <div class="dropdown-container">
-            <select >
-                <option value="None">None</option>
-                <option value="Permission">Permission</option>
-                <option value="Leave">Leave</option>
-            </select>
-        </div>
-        <table>
+             <table>
             <tr>
                 <th>Name</th>
                 <th>Date</th>
@@ -58,10 +77,16 @@
                     <td><%= user.getEnd_time() %></td>
                     <td><%= user.getStatus() %></td>
                     <td><%= user.getPermission() %></td>
-                    <td>
-                        <button onclick="acceptRequest(this)">Accept</button>
-                        <button onclick="rejectRequest(this)">Reject</button>
-                    </td>
+         <td name="status">
+    <form action="PermissionManager" method="get">
+        <input type="hidden" name="action" value="Accepted">
+        <button type="submit">Accept</button>
+    </form>
+    <form action="PermissionManager" method="get">
+        <input type="hidden" name="action" value="Rejected">
+        <button type="submit">Reject</button>
+    </form>
+</td>
                 </tr>
             <% 
                 }

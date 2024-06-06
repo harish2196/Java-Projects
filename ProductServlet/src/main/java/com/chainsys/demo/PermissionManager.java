@@ -34,6 +34,15 @@ public class PermissionManager extends HttpServlet {
 		  HttpSession session = request.getSession();
 	        String empCode = (String) session.getAttribute("emp_code");
 	       
+	        String status = request.getParameter("action");
+	      
+	        try {
+				QueryManager.updatePermissionStatus(empCode, status);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	       
 	        try {
 	        	 ArrayList<User> permissionCountList = QueryManager.getEmpPermissionCount(empCode);
 	            request.setAttribute("permissionCountList", permissionCountList);
