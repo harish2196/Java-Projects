@@ -26,21 +26,6 @@
             background-color: #f5f5f5;
         }
     </style>
-    <script>
-        function acceptRequest(acceptButton) {
-            var rejectButton = acceptButton.nextElementSibling;
-            rejectButton.style.display = 'none';
-            acceptButton.disabled = true;
-          
-        }
-
-        function rejectRequest(rejectButton) {
-            var acceptButton = rejectButton.previousElementSibling;
-            acceptButton.style.display = 'none';
-            rejectButton.disabled = true;
-            
-        }
-    </script>
 </head>
 <body>
     <h1>Employee Details</h1>
@@ -53,29 +38,25 @@
                 <th>To Date</th>
                 <th>Leave_Type</th>
                 <th>Leave_count</th>
-                <th>Action</th>
             </tr>
             <% 
-            ArrayList<User> userList = (ArrayList<User>) request.getAttribute("userList");
+            ArrayList<User> userList = (ArrayList<User>) request.getAttribute("user");
             if (userList == null || userList.isEmpty()) { 
             %>
                 <tr>
-                    <td colspan="7">No user found for the provided employee code.</td>
+                    <td colspan="5">No user found for the provided employee code.</td>
                 </tr>
             <% } else { 
                 for (User user : userList) {
             %>
                 <tr>
+                	<% System.out.println("EmpCode : " + user.getEmpCode()); %>
                     <td><%= user.getEmpCode() %></td>
                     <td><%= user.getName() %></td>
                     <td><%= user.getFromDate() %></td>
                     <td><%= user.getToDate() %></td>
                     <td><%= user.getLeaveType() %></td>
                     <td><%= user.getTotal_days() %></td>
-                    <td>
-                        <button onclick="acceptRequest(this)">Accept</button>
-                        <button onclick="rejectRequest(this)">Reject</button>
-                    </td>
                 </tr>
             <% 
                 }

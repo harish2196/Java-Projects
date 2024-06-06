@@ -287,35 +287,40 @@
     
     
     <nav class="custom-nav">
-        <div class="custom-dropdown">
+    
+       <!--  <div class="custom-dropdown">
             <button class="custom-dropbtn">Home
                 <i class="fa fa-caret-down"></i>
-            </button>
-           
-        </div>
+            </button>        
+        </div> -->
+        
         <div class="custom-dropdown">
             <button class="custom-dropbtn">Leave Application
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="custom-dropdown-content">
-                <a href="PermissionForm.jsp">Apply Permission</a>
+                <a href="ViewPermission.jsp">Apply Permission</a>
                 <a href="Leave.jsp">Apply Leave</a>
             </div>
         </div>
+        
         <div class="custom-dropdown">
-            <button class="custom-dropbtn">Admin Report 
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="custom-dropdown-content">
+    <a href="AdminDashboard.jsp" style="text-decoration: none; color: inherit;">
+     Admin Report 
+            <i class="fa fa-caret-down"></i>
+
+    </a>
+</div>
+
+           <!--  <div class="custom-dropdown-content">
                 <a href="leave-application.html">Information Report</a>
                 <a href="admin-report.html">Attendance Report</a>
-            </div>
+            </div> -->
         </div>
         <div class="custom-dropdown">
             <button class="custom-dropbtn">Payroll
                 <i class="fa fa-caret-down"></i>
-            </button>
-           
+            </button>         
     </nav>
     
     

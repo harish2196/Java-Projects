@@ -83,26 +83,5 @@
                 
             </form>
     
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <script>
-        function validateTimes() {
-            const startTime = document.getElementById('start_time').value;
-            const endTime = document.getElementById('end_time').value;
-
-            const start = new Date(`1970-01-01T${startTime}:00`);
-            const end = new Date(`1970-01-01T${endTime}:00`);
-
-            const diff = end - start;
-            const twoHours = 2 * 60 * 60 * 1000;
-
-            if (diff > twoHours) {
-                swal("Error", "End time must be no more than two hours greater than start time.", "error");
-                return false; 
-            }
-
-            return true; 
-        }
-    </script>
 </body>
 </html>

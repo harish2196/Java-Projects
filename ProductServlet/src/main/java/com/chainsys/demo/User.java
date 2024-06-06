@@ -8,30 +8,9 @@ public class User {
 	public String password;
 	public String mobile;
 	public String empCode;
-	String toDate;
-	String fromDate;
-	String leaveType;
-	String reason;
-	int total_days;
-	String date;
-	String start_time;
-	
-	
-	public String getDate() {
-		return date;
-	}
-	public void setDate(String date) {
-		this.date = date;
-	}
-	public String getStart_time() {
-		return start_time;
-	}
-	public void setStart_time(String start_time) {
-		this.start_time = start_time;
-	}
 	public User(int id, String name, String email, String password, String mobile, String empCode, String toDate,
 			String fromDate, String leaveType, String reason, int total_days, String date, String start_time,
-			String end_time) {
+			String status, String permission, String end_time) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -46,8 +25,48 @@ public class User {
 		this.total_days = total_days;
 		this.date = date;
 		this.start_time = start_time;
+		this.status = status;
+		this.permission = permission;
 		this.end_time = end_time;
 	}
+	String toDate;
+	String fromDate;
+	String leaveType;
+	String reason;
+	int total_days;
+	String date;
+	String start_time;
+	String status;
+	String permission;
+
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getPermission() {
+		return permission;
+	}
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
+	
+	
+	
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getStart_time() {
+		return start_time;
+	}
+	public void setStart_time(String start_time) {
+		this.start_time = start_time;
+	}
+	
 	public String getEnd_time() {
 		return end_time;
 	}

@@ -2,7 +2,9 @@ package com.chainsys.demo;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +31,18 @@ public class PermissionManager extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		  HttpSession session = request.getSession();
+	        String empCode = (String) session.getAttribute("emp_code");
+	       
+	        try {
+	        	 ArrayList<User> permissionCountList = QueryManager.getEmpPermissionCount(empCode);
+	            request.setAttribute("permissionCountList", permissionCountList);
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("ViewPermission.jsp");
+	            dispatcher.forward(request, response);
+	        } catch (SQLException | ClassNotFoundException e) {
+	            e.printStackTrace();
+	         
+	        }
 	}
 
 	
@@ -42,16 +54,20 @@ public class PermissionManager extends HttpServlet {
 	    user.setStart_time(request.getParameter("start_time"));
 	    user.setEnd_time(request.getParameter("end_time"));
 	
+	    request.setAttribute("user", user);
 	    
 	    HttpSession session = request.getSession();
 	    String empCode = (String) session.getAttribute("emp_code");
 	    
 	    try {
 	        QueryManager.insertPermission(user, empCode);
+	      
 	        response.sendRedirect("PermissionForm.jsp"); 
 	    } catch (ClassNotFoundException | SQLException e) {
 	        e.printStackTrace();
 	       }
 	}
+	
+	
 
 }

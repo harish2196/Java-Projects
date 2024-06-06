@@ -29,38 +29,6 @@ public class QueryManager {
 
 	}
 
-//	public static void insertPermission(User user, String empCode) throws SQLException, ClassNotFoundException {
-//	    Connection connection = null;
-//	    PreparedStatement preparedStatement = null;
-//
-//	    try {
-//	        connection = DBManager.getConnection();
-//	        String insertPermissionQuery = "INSERT INTO permission_count (emp_code, name, date, start_time, end_time, permission) VALUES (?, ?, ?, ?, ?, 1)";
-//	        preparedStatement = connection.prepareStatement(insertPermissionQuery);
-//
-//	        preparedStatement.setString(1, empCode);
-//	        preparedStatement.setString(2, user.getName());
-//	        preparedStatement.setString(3, user.getDate());
-//	        preparedStatement.setString(4, user.getStart_time());
-//	        preparedStatement.setString(5, user.getEnd_time());
-//
-//	        int rowCount = preparedStatement.executeUpdate();
-//	        if (rowCount > 0) {
-//	            System.out.println("Data inserted/updated successfully.");
-//	        } else {
-//	            System.out.println("Data insertion/update failed.");
-//	        }
-//	    } finally {
-//	        // Close the resources
-//	        if (preparedStatement != null) {
-//	            preparedStatement.close();
-//	        }
-//	        if (connection != null) {
-//	            connection.close();
-//	        }
-//	    }
-//	}
-//	
 	
 	public static void insertPermission(User user, String empCode) throws SQLException, ClassNotFoundException {
 	    Connection connection = DBManager.getConnection();	
@@ -176,7 +144,30 @@ public class QueryManager {
 		return userList;
 	}
 	
-
+	 public static ArrayList<User> getEmpPermissionCount(String empCode) throws SQLException, ClassNotFoundException {
+	        
+	        ArrayList<User> userList = new ArrayList<>();
+	        	Connection  connection = DBManager.getConnection();
+	            String query = "SELECT * FROM permission_count WHERE emp_code = ?";
+	            PreparedStatement  preparedStatement = connection.prepareStatement(query);
+	            preparedStatement.setString(1, empCode);
+	            ResultSet  resultSet = preparedStatement.executeQuery();
+	            
+	            while (resultSet.next()) {
+	                User user = new User();
+	                user.setEmpCode(resultSet.getString("emp_code"));
+	                user.setName(resultSet.getString("name"));
+	                user.setDate(resultSet.getString("date"));
+	              user.setStart_time(resultSet.getString("start_time"));
+	                user.setEnd_time(resultSet.getString("end_time"));
+	                user.setStatus(resultSet.getString("status"));
+	                user.setPermission(resultSet.getString("permission"));
+	                userList.add(user);
+	            }
+	    	        
+	        return userList;
+	    }
+	
 }
 
 
