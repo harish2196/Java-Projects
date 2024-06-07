@@ -22,7 +22,7 @@
                 <div class="signup-form">
                     <h2 class="form-title">Sign up</h2>
 
-                    <form method="POST" action="ProjectDemo" class="register-form" id="register-form">
+                    <form method="POST" action="ProjectDemo" class="register-form" id="register-form" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                             <input type="text" name="name" id="name" placeholder="Emp Name" required="required" />
@@ -43,6 +43,12 @@
                             <label for="contact"><i class="zmdi zmdi-lock-outline"></i></label>
                             <input type="text" name="contact" id="contact" placeholder="Contact no" required="required" />
                         </div>
+                        
+                        <div class="form-group">
+    <label for="image"><i class="zmdi zmdi-image"></i></label>
+    <input type="file" name="image" id="image" accept="image/*" required="required" />
+</div>
+                        
                         <div class="form-group">
                             <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
                             <label for="agree-term" class="label-agree-term">

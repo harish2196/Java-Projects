@@ -39,9 +39,11 @@
                 <th>Leave_Type</th>
                 <th>Leave_count</th>
               <th>Status</th>
+              <th>Buttons</th>
             </tr>
             <% 
             ArrayList<User> userList = (ArrayList<User>) request.getAttribute("userList");
+            
             if (userList == null || userList.isEmpty()) { 
             %>
                 <tr>

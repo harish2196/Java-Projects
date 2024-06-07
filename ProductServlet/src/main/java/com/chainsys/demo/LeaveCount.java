@@ -46,7 +46,9 @@ public class LeaveCount extends HttpServlet {
 	        User user = new User(); 
 	        user.setTotal_days(totalLeaveDays);
 	        QueryManager.insertTotalLeaveDays(empCode, totalLeaveDays);
+	        QueryManager.getTotalLeaveDays(empCode);
 	        ArrayList<User> userList = QueryManager.getEmpLeaveCount(empCode);
+	      //  ArrayList<User> userList = QueryManager.getEmpLeaveCount(empCode);
 	        request.setAttribute("userList", userList);
 	        request.getRequestDispatcher("LeaveSummary.jsp").forward(request, response);
 	    } catch (SQLException | ClassNotFoundException e) {

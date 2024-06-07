@@ -1,3 +1,7 @@
+<%@page import="com.chainsys.demo.User"%>
+<%@page import="com.chainsys.demo.QueryManager"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page import="java.util.Base64" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -262,12 +266,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
+  
+   <div>
+    <p style="color: white;margin-top:8%;bottom:0;">Welcome, <%= session.getAttribute("name") %></p>
+</div>
+
+
+
+
+
         <li class="nav-item">
             <a class="nav-link" href="">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">About</a>
-          </li>
+          </li>                   
           <li class="nav-item">
             <a class="nav-link" href="JoinUs.jsp">Join Us</a>
           </li>

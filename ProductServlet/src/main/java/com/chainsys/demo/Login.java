@@ -77,6 +77,8 @@ public class Login extends HttpServlet {
 				session.setAttribute("name", rs.getString("username"));
 				String empCode = rs.getString("emp_code");
 				session.setAttribute("emp_code", empCode);
+				
+				
 				dispatcher = request.getRequestDispatcher("Home.jsp");
 
 

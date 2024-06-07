@@ -5,16 +5,25 @@ public class User {
 	int id;
 	public String name;
 	public String email;
+	public byte[] imageData;	
 	public String password;
 	public String mobile;
 	public String empCode;
-	public User(int id, String name, String email, String password, String mobile, String empCode, String toDate,
-			String fromDate, String leaveType, String reason, int total_days, String date, String start_time,
-			String status, String permission, String end_time) {
+	String toDate;
+	String fromDate;
+	String leaveType;
+	String reason;
+	int total_days;
+	String date;
+	String start_time;
+	public User(int id, String name, String email, byte[] imageData, String password, String mobile, String empCode,
+			String toDate, String fromDate, String leaveType, String reason, int total_days, String date,
+			String start_time, String status, String permission, String end_time) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
+		this.imageData = imageData;
 		this.password = password;
 		this.mobile = mobile;
 		this.empCode = empCode;
@@ -29,13 +38,6 @@ public class User {
 		this.permission = permission;
 		this.end_time = end_time;
 	}
-	String toDate;
-	String fromDate;
-	String leaveType;
-	String reason;
-	int total_days;
-	String date;
-	String start_time;
 	String status;
 	String permission;
 
@@ -83,6 +85,12 @@ public class User {
 	}
 	public String getName() {
 		return name;
+	}
+	public byte[] getImageData() {
+		return imageData;
+	}
+	public void setImageData(byte[] imageData) {
+		this.imageData = imageData;
 	}
 	
 	public User() {
